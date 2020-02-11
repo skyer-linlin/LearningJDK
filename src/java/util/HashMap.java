@@ -148,6 +148,9 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
    * normal use are not overpopulated, checking for existence of
    * tree bins may be delayed in the course of table methods.
    *
+   * map中的桶通常是以链表实现的,当桶中元素过多时,链表会转化为树,类似java.util.TreeMap类的实现.
+   * 大多数方法中尽量使用链表
+   *
    * Tree bins (i.e., bins whose elements are all TreeNodes) are
    * ordered primarily by hashCode, but in the case of ties, if two
    * elements are of the same "class C implements Comparable<C>",
@@ -1513,7 +1516,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
       K k;
 
       /*
-       * 对哈希槽中的首个元素进行判断
+       * 对哈希槽中的首个元素进行判断,判断是不是同一个key
        *
        * 只有哈希值一致（还说明不了key是否一致），且key也相同（必要时需要用到equals()方法）时，
        * 这里才认定是存在同位元素（在HashMap中占据相同位置的元素）
